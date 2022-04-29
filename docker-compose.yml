@@ -1,5 +1,23 @@
 version: '3.3'
 services:
+
+  server:
+    build: server
+    command: npm run start
+    ports:
+      - 3000:3000
+    environment:
+      DATABASE_URL: mysql://root:password@db:3306/todos
+
+  
+  client:
+    build: client 
+    ports:
+      - 3001:3001
+    environment:
+      VITE_APP_API_URL: http://server:3000
+
+
   db:
     image: mysql:5.7
     restart: always
@@ -9,7 +27,7 @@ services:
       MYSQL_PASSWORD: 'password'
       MYSQL_ROOT_PASSWORD: 'password'
     ports:
-      - '3306:3306'
+      - '13306:3306'
     expose:
       - '3306'
     volumes:
